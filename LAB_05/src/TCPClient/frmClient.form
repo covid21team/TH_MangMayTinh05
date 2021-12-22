@@ -87,11 +87,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Truy&#x1ec1;n chu&#x1ed7;i"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnchuoiActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnthoat">
       <Properties>
         <Property name="text" type="java.lang.String" value="tho&#xe1;t"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnthoatActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
