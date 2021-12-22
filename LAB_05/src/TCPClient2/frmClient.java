@@ -5,17 +5,25 @@
  */
 package TCPClient2;
 
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+
 /**
  *
  * @author PHU
  */
 public class frmClient extends javax.swing.JFrame {
+    private Socket socket = null;
+    private PrintWriter out = null;
+    private Scanner in = null;
 
     /**
      * Creates new form frmClient
      */
     public frmClient() {
         initComponents();
+        txtketqua.requestFocus();
     }
 
     /**
@@ -43,8 +51,18 @@ public class frmClient extends javax.swing.JFrame {
         jLabel2.setText("Kết quả");
 
         btntinh.setText("Tính");
+        btntinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntinhActionPerformed(evt);
+            }
+        });
 
         btnthoat.setText("Thoát");
+        btnthoat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthoatActionPerformed(evt);
+            }
+        });
 
         cbopheptoan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+", "-", "*", "/" }));
 
@@ -94,6 +112,36 @@ public class frmClient extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btntinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntinhActionPerformed
+        int so1 = Integer.parseInt(txtso1.getText());
+        int so2 = Integer.parseInt(txtso2.getText());
+        String pheptoan = cbopheptoan.getSelectedItem().toString();
+        String chuoi = so1 + "@"+ pheptoan+ "@" +so2;
+        String ketqua="";
+        try{
+            socket = new Socket("127.0.0.1",1234);
+            out = new PrintWriter(socket.getOutputStream(),true);
+            in = new Scanner(socket.getInputStream());
+            out.println(chuoi);
+            ketqua=in.nextLine().trim();
+            txtketqua.setText(ketqua);
+            socket.close();
+            
+        }catch(Exception e){
+            try{
+                if(socket!=null)
+                    socket.close();
+            }
+            catch(Exception ex)
+                {e.printStackTrace();}
+        }
+        
+    }//GEN-LAST:event_btntinhActionPerformed
+
+    private void btnthoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthoatActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnthoatActionPerformed
 
     /**
      * @param args the command line arguments
