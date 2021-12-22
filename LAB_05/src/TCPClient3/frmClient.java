@@ -5,26 +5,35 @@
  */
 package TCPClient3;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author PHU
  */
 public class frmClient extends javax.swing.JFrame {
-    private Socket socket =null;
-    private PrintWriter out =null;
+
+    private Socket socket = null;
+    private PrintWriter out = null;
     private Scanner in = null;
+
     /**
      * Creates new form frmClient
      */
     public frmClient() {
         initComponents();
         txtHost.requestFocus();
-        ThreadChat obj= new ThreadChat();
-        obj.chat =this;
+        ThreadChat obj = new ThreadChat();
+        obj.chat = this;
+    }
+
+    public void Hienthi(String str) {
+        txtChat.append(str);
     }
 
     /**
@@ -68,8 +77,18 @@ public class frmClient extends javax.swing.JFrame {
         jScrollPane2.setViewportView(txtsend);
 
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         btnThoat.setText("Thoát");
+        btnThoat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThoatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,6 +144,32 @@ public class frmClient extends javax.swing.JFrame {
     private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNickActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNickActionPerformed
+
+    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnThoatActionPerformed
+
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        String chuoi = txtsend.getText();
+        String nick = txtNick.getText();
+        String host = txtHost.getText();
+        try{
+            socket = new Socket(host,1234);
+            out = new PrintWriter(socket.getOutputStream(),true);
+            in = new Scanner(socket.getInputStream());
+            out.println(nick+": "+chuoi+"\n");
+            txtChat.append(nick+": "+chuoi+"\n");
+            socket.close();
+        
+        } catch (Exception e) {
+            try{if(socket!=null)socket.close();}catch(Exception ex){
+                e.printStackTrace();
+            
+            }
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_btnSendActionPerformed
 
     /**
      * @param args the command line arguments
