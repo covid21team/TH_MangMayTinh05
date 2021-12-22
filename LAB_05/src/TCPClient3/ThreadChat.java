@@ -20,20 +20,31 @@ public class ThreadChat implements Runnable {
     public frmClient chat = null;
     ServerSocket server = null;
 
-}
-public ThreadChat(){
-    try{
-       server = new ServerSocket(1234);
-}catch(Exception e){
-    e.printStackTrace();
-}
-new Thread(this).start();
-    
+    public ThreadChat() {
+        try {
+            server = new ServerSocket(1234);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new Thread(this).start();
+    }
 
-}public void run(){
-    try{
-}catch(Exception e){
+    public void run() {
+        try {
+            while(true){
+                while((socket=server.accept())!=null){
+                    this.in = new Scanner(this.socket.getInputStream());
+                    String chuoi = in.nextLine().trim();
+                    chat.Hienthi(chuoi+"\n");
+                            
+                }
+            }
+        } catch (Exception e) {
+                
+        }finally{
+            try{socket.close();}catch(Exception e){}
+        }
 
-}
+    }
 
 }
